@@ -840,7 +840,11 @@
     }
 
     .contact-panel {
-      width: min(390px, 100%);
+      width: min(700px, 100%);
+      max-height: calc(100vh - 44px);
+      max-height: calc(100dvh - 44px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
       border-radius: 8px;
       background: white;
       box-shadow: 0 22px 60px rgba(0, 0, 0, .18);
@@ -931,70 +935,110 @@
       line-height: 1;
     }
 
-    .linktree-block {
-      display: grid;
-      gap: 10px;
-      justify-items: center;
-      border-top: 1px solid var(--line);
-      padding-top: 16px;
-    }
-
-    .linktree-heading {
-      width: 100%;
+    .commercial-access-bar {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      color: var(--ink);
-      font-size: 13px;
-      font-weight: 850;
+      justify-content: center;
+      padding: 0 12px 12px;
     }
 
-    .contact-qr-wrap {
-      width: min(260px, 100%);
-      aspect-ratio: 1 / 1;
+    .commercial-access-button {
+      min-height: 44px;
+      padding: 0 18px;
+      color: #075db8;
+      background: #e8f2ff;
+      border-color: #c5dcf7;
+    }
+
+    .commercial-access-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .commercial-access-card {
+      min-width: 0;
+      padding: 16px;
       border: 1px solid var(--line);
       border-radius: 8px;
+      background: var(--surface-soft);
       display: grid;
-      place-items: center;
-      background: #fbfcfd;
-      padding: 12px;
-      cursor: pointer;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .commercial-access-link {
+      display: grid;
+      gap: 8px;
+      color: var(--ink);
       text-decoration: none;
     }
 
-    .contact-qr-wrap[aria-disabled="true"] {
-      cursor: default;
-      background: #f8f9fb;
+    .commercial-access-link strong {
+      font-size: 17px;
+      line-height: 1.25;
     }
 
-    .contact-qr {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .qr-placeholder {
-      color: #98a2b3;
+    .commercial-access-link span {
       font-size: 13px;
-      font-weight: 850;
-      text-align: center;
+      font-weight: 650;
+      line-height: 1.45;
+      color: #535d6b;
     }
 
-    .contact-panel p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 750;
-      text-align: center;
-    }
-
-    .contact-note {
-      color: var(--muted);
+    .commercial-access-link .commercial-domain {
+      overflow-wrap: anywhere;
+      color: #075db8;
       font-size: 12px;
-      font-weight: 700;
-      line-height: 1.35;
+    }
+
+    .commercial-access-link .commercial-open {
+      display: block;
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 999px;
+      background: var(--black);
+      color: white;
       text-align: center;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .commercial-qr summary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 8px;
+      border: 1px solid #d5dce7;
+      border-radius: 8px;
+      color: #075db8;
+      background: white;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .commercial-qr summary::-webkit-details-marker { display: none; }
+    .commercial-qr summary::after { content: "+"; margin-left: 8px; }
+    .commercial-qr[open] summary::after { content: "−"; }
+
+    .commercial-qr-link {
+      display: block;
+      width: min(220px, 100%);
+      margin: 12px auto 0;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+    }
+
+    .commercial-qr-link img { display: block; width: 100%; height: auto; }
+    .commercial-qr p { margin-top: 10px; font-size: 12px; line-height: 1.4; }
+
+    @media (max-width: 560px) {
+      .commercial-access-grid { grid-template-columns: 1fr; }
+      .contact-panel { padding: 20px; }
     }
 
     .gallery-modal,
@@ -1979,6 +2023,10 @@
       </div>
     </div>
 
+    <div class="commercial-access-bar">
+      <button id="commercialAccessOpen" class="button commercial-access-button" type="button" aria-haspopup="dialog" aria-controls="contactModal" aria-expanded="false">Tienda y cat&aacute;logo &middot; Enlaces y QR</button>
+    </div>
+
     <main>
       <div class="mode-tabs" aria-label="Modo de visualizacion">
         <button id="catalogMode" class="tab-button" type="button">Catalogo</button>
@@ -2064,11 +2112,11 @@
   </div>
 
   <div id="contactModal" class="contact-modal" aria-hidden="true">
-    <div class="contact-panel" role="dialog" aria-modal="true" aria-label="Contacto iClub">
+    <div class="contact-panel" role="dialog" aria-modal="true" aria-label="Enlaces iClub Argentina">
       <button id="contactClose" class="contact-close" type="button" aria-label="Cerrar contacto">&times;</button>
       <div class="contact-title">
-        <strong>Contacto iClub</strong>
-        <span>Canales oficiales para atencion y consultas comerciales.</span>
+        <strong>Enlaces iClub Argentina</strong>
+        <span>Tienda, cat&aacute;logo y contacto, en un solo lugar.</span>
       </div>
       <a id="whatsappContact" class="contact-link whatsapp-link" href="#" target="_blank" rel="noreferrer">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -2077,20 +2125,37 @@
         <span>WhatsApp iClub</span>
         <span class="contact-arrow">&rsaquo;</span>
       </a>
-      <div class="linktree-block">
-        <div class="linktree-heading">
-          <span>Linktree iClub</span>
-          <span id="linktreeStatus">Pendiente</span>
-        </div>
-        <a id="linktreeQrLink" class="contact-qr-wrap" href="#" target="_blank" rel="noreferrer" aria-label="Abrir Linktree iClub">
-          <img id="linktreeQr" class="contact-qr" src="" alt="QR de Linktree iClub" loading="lazy" hidden>
-          <span id="linktreeQrPlaceholder" class="qr-placeholder">Linktree pendiente</span>
-        </a>
-        <a id="linktreeContact" class="contact-link" href="#" target="_blank" rel="noreferrer">
-          <span>Abrir Linktree</span>
-          <span class="contact-arrow">&rsaquo;</span>
-        </a>
-        <div id="linktreeNote" class="contact-note"></div>
+      <div class="commercial-access-grid">
+        <article class="commercial-access-card">
+          <a id="storeAccess" class="commercial-access-link" href="https://www.iclubargentina.com/" target="_blank" rel="noopener noreferrer">
+            <strong>Tienda iClub Argentina</strong>
+            <span>Visit&aacute; nuestra tienda online.</span>
+            <span class="commercial-domain">www.iclubargentina.com</span>
+            <span class="commercial-open">Abrir tienda &rsaquo;</span>
+          </a>
+          <details class="commercial-qr">
+            <summary role="button">Ver QR de la tienda</summary>
+            <a class="commercial-qr-link" href="https://www.iclubargentina.com/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Tienda iClub Argentina desde su QR">
+              <img src="assets/qr-tienda-iclub-argentina.png" alt="QR para abrir la Tienda iClub Argentina" width="370" height="370" loading="lazy">
+            </a>
+            <p>Escanealo con otro dispositivo para abrir la tienda.</p>
+          </details>
+        </article>
+        <article class="commercial-access-card">
+          <a id="catalogAccess" class="commercial-access-link" href="https://catalogo.iclubargentina.com/" target="_blank" rel="noopener noreferrer">
+            <strong>Cat&aacute;logo Visual iClub</strong>
+            <span>Consult&aacute; equipos, disponibilidad y precios.</span>
+            <span class="commercial-domain">catalogo.iclubargentina.com</span>
+            <span class="commercial-open">Abrir cat&aacute;logo &rsaquo;</span>
+          </a>
+          <details class="commercial-qr">
+            <summary role="button">Ver QR del cat&aacute;logo</summary>
+            <a class="commercial-qr-link" href="https://catalogo.iclubargentina.com/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Cat&aacute;logo Visual iClub desde su QR">
+              <img src="assets/qr-catalogo-iclub-argentina.png" alt="QR para abrir el Cat&aacute;logo Visual iClub" width="370" height="370" loading="lazy">
+            </a>
+            <p>Escanealo con otro dispositivo para abrir el cat&aacute;logo.</p>
+          </details>
+        </article>
       </div>
     </div>
   </div>
@@ -2186,9 +2251,7 @@
     const DRIVE_IMAGE_RESOLVER_URL = "https://script.google.com/macros/s/AKfycbyiHxpOvwkEOTl7UtfmIXZS5VbpEP9q2lBUDpBjqrJrQBd3hUtNzhvAgeRBZBAIFy6N/exec";
     const ICLUB_CONTACT = {
       whatsapp: "5491125003057",
-      linktree: "https://linktr.ee/iClubapple.com",
     };
-    const ICLUB_LINKTREE_QR = "assets/qr-linktree-iclub.png";
     const DRIVE_API_KEY = "";
     const IMAGE_DEBUG = false;
     const VALID_IMAGE_MIME_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
@@ -4085,14 +4148,21 @@
       $("galleryImageFallbackVisual").replaceChildren();
     }
 
+    let contactReturnFocus = null;
+
     function openContactModal() {
+      contactReturnFocus = document.activeElement;
       $("contactModal").classList.add("show");
       $("contactModal").setAttribute("aria-hidden", "false");
+      $("commercialAccessOpen").setAttribute("aria-expanded", "true");
+      $("storeAccess").focus();
     }
 
     function closeContactModal() {
       $("contactModal").classList.remove("show");
       $("contactModal").setAttribute("aria-hidden", "true");
+      $("commercialAccessOpen").setAttribute("aria-expanded", "false");
+      contactReturnFocus?.focus();
     }
 
     function currentReserveProduct() {
@@ -4407,23 +4477,7 @@
       $("whatsappContact").href = whatsappUrl;
       $("floatingWhatsapp").href = `${whatsappUrl}?text=${encodeURIComponent("Hola iClub 👋 Quiero hacer una consulta sobre los equipos disponibles.")}`;
 
-      const linktreeUrl = String(ICLUB_CONTACT.linktree || "").trim();
-      const linktreeQr = String(ICLUB_LINKTREE_QR || "").trim();
-      const linktreeReady = /^https?:\/\//i.test(linktreeUrl);
-      const qrReady = Boolean(linktreeQr);
-      $("linktreeStatus").textContent = linktreeReady ? "Activo" : "Sin URL";
-      $("linktreeNote").textContent = linktreeReady
-        ? "Escanea el QR o toca para abrir el Linktree oficial."
-        : "Todavia no hay una URL de Linktree configurada. Complete ICLUB_CONTACT.linktree para activar este acceso.";
-      $("linktreeQr").src = qrReady ? linktreeQr : "";
-      $("linktreeQr").hidden = !qrReady;
-      $("linktreeQrPlaceholder").hidden = qrReady;
 
-      ["linktreeQrLink", "linktreeContact"].forEach((id) => {
-        const element = $(id);
-        element.href = linktreeReady ? linktreeUrl : "#";
-        element.setAttribute("aria-disabled", linktreeReady ? "false" : "true");
-      });
     }
 
     function moveGallery(step) {
@@ -4530,6 +4584,7 @@
     $("reload").addEventListener("click", init);
     initContactLinks();
     $("contactToggle").addEventListener("click", openContactModal);
+    $("commercialAccessOpen").addEventListener("click", openContactModal);
     $("contactClose").addEventListener("click", closeContactModal);
     $("serviceOpen").addEventListener("click", openServiceModal);
     $("serviceClose").addEventListener("click", closeServiceModal);
@@ -4574,13 +4629,7 @@
       state.service.step = Math.min(3, state.service.step + 1);
       renderService();
     });
-    ["linktreeQrLink", "linktreeContact"].forEach((id) => {
-      $(id).addEventListener("click", (event) => {
-        if (!/^https?:\/\//i.test(String(ICLUB_CONTACT.linktree || ""))) {
-          event.preventDefault();
-        }
-      });
-    });
+
 
     document.addEventListener("click", (event) => {
       const batteryButton = event.target.closest("[data-battery-option]");
@@ -4635,6 +4684,19 @@
       if (event.key === "ArrowRight") moveGallery(1);
     });
     document.addEventListener("keydown", (event) => {
+      if (event.key === "Tab" && $("contactModal").classList.contains("show")) {
+        const controls = Array.from($("contactModal").querySelectorAll("button, a[href], summary"))
+          .filter((element) => element.getClientRects().length);
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
       if (event.key === "Escape" && $("contactModal").classList.contains("show")) closeContactModal();
       if (event.key === "Escape" && $("reserveModal").classList.contains("show")) closeReserveModal();
       if (event.key === "Escape" && $("serviceModal").classList.contains("show")) closeServiceModal();
