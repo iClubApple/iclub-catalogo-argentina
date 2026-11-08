@@ -1938,6 +1938,28 @@
         border-bottom: 1px solid var(--line);
       }
     }
+
+    /* Aviso de independencia comercial: visible y separado del acceso flotante. */
+    .legal-footer {
+      border-top: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .legal-footer-inner {
+      width: 100%;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px 96px 104px 22px;
+    }
+    .legal-footer-brand { margin: 0 0 10px; font-size: 16px; font-weight: 700; }
+    .legal-footer-copy { max-width: 86ch; margin: 0; color: #424955; font-size: 14px; line-height: 1.65; }
+    .legal-footer-link {
+      display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px;
+      color: #075db8; font-size: 14px; text-decoration: underline; text-underline-offset: 3px;
+    }
+    .legal-footer-link:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; border-radius: 2px; }
+    @media (max-width: 560px) {
+      .legal-footer-inner { padding: 24px 86px 104px 12px; }
+    }
   </style>
 </head>
 <body>
@@ -2036,7 +2058,7 @@
       <section class="trade-entry" aria-label="Plan Canje iClub">
         <div class="trade-entry-copy trade-entry-seal">
           <h2>Asistencia iClub</h2>
-          <p>Ayuda con tu cuenta de Apple, iCloud, contrase&ntilde;as, configuraci&oacute;n, almacenamiento y m&aacute;s.</p>
+          <p>Asistencia independiente con tu cuenta de Apple, iCloud, contrase&ntilde;as, configuraci&oacute;n, almacenamiento y m&aacute;s.</p>
           <a class="trade-entry-button" href="https://wa.me/5491135823994?text=Hola%20iClub%20%F0%9F%91%8B%20Necesito%20asistencia%20con%20mi%20equipo%20o%20mi%20cuenta%20de%20Apple." target="_blank" rel="noreferrer">
             <span class="trade-entry-whatsapp" aria-hidden="true">
               <svg viewBox="0 0 24 24">
@@ -2075,9 +2097,9 @@
               <path d="M14.7 6.3a4 4 0 0 0-5 5l-5.2 5.2a2.1 2.1 0 0 0 3 3l5.2-5.2a4 4 0 0 0 5-5l-2.7 2.7-3-3 2.7-2.7Z"></path>
             </svg>
           </div>
-          <span class="trade-entry-kicker">Technical Support</span>
+          <span class="trade-entry-kicker">Servicio t&eacute;cnico independiente</span>
           <h2>Cotiz&aacute; tu reparaci&oacute;n</h2>
-          <p>Servicio t&eacute;cnico especializado para tu equipo Apple.</p>
+          <p>Diagn&oacute;stico y reparaci&oacute;n de equipos, con atenci&oacute;n independiente de Apple Inc.</p>
           <button id="serviceOpen" class="trade-entry-button" type="button">
             <span class="trade-entry-whatsapp" aria-hidden="true">
               <svg viewBox="0 0 24 24">
@@ -2111,12 +2133,20 @@
     </main>
   </div>
 
+  <footer class="legal-footer" aria-label="Identidad e independencia comercial">
+    <div class="legal-footer-inner">
+      <p class="legal-footer-brand">iClub&reg; &middot; ICLUB SAS</p>
+      <p class="legal-footer-copy">iClub SAS es una empresa comercial independiente. No somos distribuidores de Apple Inc. ni servicio técnico autorizado por dicha compañía. No existe afiliación, patrocinio ni respaldo de Apple Inc. a iClub SAS.</p>
+      <a class="legal-footer-link" href="aviso-legal.html">Aviso legal completo</a>
+    </div>
+  </footer>
+
   <div id="contactModal" class="contact-modal" aria-hidden="true">
     <div class="contact-panel" role="dialog" aria-modal="true" aria-label="Enlaces iClub Argentina">
       <button id="contactClose" class="contact-close" type="button" aria-label="Cerrar contacto">&times;</button>
       <div class="contact-title">
         <strong>Enlaces iClub Argentina</strong>
-        <span>Tienda, cat&aacute;logo y contacto, en un solo lugar.</span>
+        <span>Canales de atenci&oacute;n de iClub SAS.</span>
       </div>
       <a id="whatsappContact" class="contact-link whatsapp-link" href="#" target="_blank" rel="noreferrer">
         <svg viewBox="0 0 24 24" aria-hidden="true">
