@@ -35,30 +35,6 @@ const STEP_BENEFITS = 8;
 const STEP_DIFFERENCE = 9;
 const BENEFIT_PRODUCTS = [
   {
-    id: "airpods-pro-aaa",
-    name: "AirPods Pro AAA",
-    referencePrice: 125,
-    specialPrice: 25,
-    discountLabel: "80% OFF",
-    image: "assets/airpods-pro-aaa-transparent.png",
-  },
-  {
-    id: "apple-watch-series-10-aaa",
-    name: "Apple Watch Serie 10 AAA",
-    referencePrice: 200,
-    specialPrice: 40,
-    discountLabel: "80% OFF",
-    image: "assets/apple-watch-series-10-aaa-transparent.png",
-  },
-  {
-    id: "apple-watch-ultra-2-aaa",
-    name: "Apple Watch Ultra 2 AAA",
-    referencePrice: 250,
-    specialPrice: 50,
-    discountLabel: "80% OFF",
-    image: "assets/apple-watch-ultra-2-aaa-transparent.png",
-  },
-  {
     id: "cargador-apple-usb-c-20w-original",
     name: "Cargador Apple USB-C 20W Original",
     referencePrice: 80,

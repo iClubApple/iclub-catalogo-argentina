@@ -2929,6 +2929,17 @@
       return "Equipos";
     }
 
+    // Publication policy: exclude AAA AirPods/Watch from every catalog consumer.
+    // Source rows, prices, stock and photographs remain unchanged.
+    function isWithdrawnAaaDevice(product) {
+      const category = normalize(product.category || inferCategory(product.model || product.title || ""));
+      if (!["airpods", "apple watch"].includes(category)) return false;
+      const identity = normalize([
+        product.model, product.title, product.condition, product.catalogBlock,
+      ].filter(Boolean).join(" "));
+      return /\baaa\b/.test(identity);
+    }
+
     function isCatalogEligible(product) {
       const text = normalize(`${product.title} ${product.model} ${product.category}`);
       const allowed = [
@@ -3846,6 +3857,8 @@
     function promotionView(rawValue) {
       const raw = cleanPromotionText(rawValue);
       if (!raw) return null;
+      // Suppress public promotions for withdrawn AAA devices, including share cards.
+      if (/\baaa\b/i.test(raw) && /\b(?:airpods?|(?:apple\s+)?watch)\b/i.test(raw)) return null;
 
       if (/^usd\s*[\d.,]+$/i.test(raw)) {
         return { label: "Precio especial", value: raw.toUpperCase() };
@@ -4454,7 +4467,7 @@
         state.exchangeRate = null;
         renderExchangeRate();
         state.rows = await loadAllSources();
-        const products = state.rows.map(rowToProduct).filter((p) => p.title.trim()).filter(isCatalogEligible);
+        const products = state.rows.map(rowToProduct).filter((p) => p.title.trim()).filter(isCatalogEligible).filter((p) => !isWithdrawnAaaDevice(p));
         state.products = attachBatteryPriceOptions(products);
         refreshFilters();
         applyFilters();
@@ -4632,6 +4645,6 @@
   <script defer src="plan-canje-diagnostic.js?v=local-file-open-20261013"></script>
   <script defer src="share-card-brand.js?v=share-card-20261019"></script>
   <script defer src="share-card.js?v=share-quote-20261021"></script>
-  <script defer src="plan-canje-ui.js?v=share-quote-20261021"></script>
+  <script defer src="plan-canje-ui.js?v=publicacion-20261108"></script>
 </body>
 </html>
