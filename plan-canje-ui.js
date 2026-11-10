@@ -39,9 +39,20 @@ const BENEFIT_PRODUCTS = [
     name: "Cargador Apple USB-C 20W Original",
     referencePrice: 80,
     specialPrice: 45,
-    discountLabel: "40% OFF",
+    discountLabel: "43,75% OFF",
+    note: "Ahorrás USD 35.",
     image: "assets/cargador-apple-usb-c-20w-original.jpeg",
     whatsappIcon: "🔌",
+  },
+  {
+    id: "voucher-funda-vidrio-clear",
+    name: "Funda + Vidrio Clear",
+    referencePrice: 30,
+    specialPrice: 10,
+    image: "assets/funda-vidrio-clear-blanco.png",
+    note: "Ahorrás USD 20.",
+    description: "Protegé tu nuevo iPhone con una funda de protección Clear transparente y un vidrio templado de protección Clear.",
+    whatsappIcon: "🛡️",
   },
 ];
 const GENERAL_CONDITIONS = [
@@ -452,7 +463,7 @@ function recommendationBadge(product, recommendations) {
 function whatsappUrlForOperation(product, difference) {
   const benefits = selectedBenefits();
   const lines = [
-    "👋 Hola iClub! Quiero avanzar con mi Plan Canje.",
+    benefits.length ? "Solicitud de reserva — Plan Canje iClub" : "👋 Hola iClub! Quiero avanzar con mi Plan Canje.",
     "",
     "📱 *Entrego*",
     `${displayModelName(state.model)} · ${state.capacity}`,
@@ -464,14 +475,16 @@ function whatsappUrlForOperation(product, difference) {
     product.color ? `Color: ${product.color}` : "",
     `Precio efectivo: ${nextProductPriceLabel(product)}`,
     "",
-    `🔄 *Diferencia Plan Canje: ${money(difference)}*`,
+    `🔄 *${benefits.length ? "Diferencia estimada por Plan Canje" : "Diferencia Plan Canje"}: ${money(difference)}*`,
     "",
-    benefits.length ? "🎁 *Beneficios que agregué*" : null,
+    benefits.length ? "🎁 *Beneficios adicionales solicitados*" : null,
     ...benefits.map((benefit) => `${benefit.whatsappIcon ? `${benefit.whatsappIcon} ` : ""}${benefit.name} — ${benefitPriceLabel(benefit)}`),
     benefits.length ? "" : null,
     `*Total estimado: ${totalFinalLabel(product)}*`,
     "",
-    "Quiero avanzar con esta opción y confirmar disponibilidad.",
+    benefits.length ? `Accesorios para el equipo elegido: ${nextProductModel(product)} · ${product.capacity || "Capacidad a confirmar"}.` : null,
+    benefits.length ? "Retiro de accesorios junto con el nuevo iPhone al concretar la operación en el local." : null,
+    benefits.length ? "Solicitud sujeta a confirmación de disponibilidad, valoración final y condiciones comerciales por iClub. No implica compra ni cobro online." : "Quiero avanzar con esta opción y confirmar disponibilidad.",
   ].filter((line) => line !== null && line !== undefined);
   return `${WHATSAPP_URL}?text=${encodeURIComponent(lines.join("\n"))}`;
 }
@@ -799,7 +812,7 @@ function stepDifference() {
             <strong>${money(difference)}</strong>
           </div>
         `}
-        <p class="trade-summary-note">Valores sujetos a disponibilidad y revisión física del equipo entregado.</p>
+        <p class="trade-summary-note">${benefits.length ? "Solicitud de reserva sujeta a confirmación comercial de disponibilidad y valoración final del equipo. Los accesorios se retiran junto con el nuevo iPhone en el local. No implica compra ni cobro online." : "Valores sujetos a disponibilidad y revisión física del equipo entregado."}</p>
       </div>
       <div class="trade-actions stack-mobile difference-actions">
         <button class="trade-button secondary" type="button" data-trade-action="chooseNext">Elegir otro iPhone</button>
@@ -835,10 +848,11 @@ function stepBenefits() {
         <h3>Tu iPhone desbloqueó beneficios especiales</h3>
         <p>Por elegir este equipo, podés sumar productos seleccionados con precio especial.</p>
       </div>
+      <p class="trade-summary-note">Los accesorios se solicitan con tu reserva. iClub confirmará su disponibilidad para el modelo elegido. Se retiran junto con el nuevo iPhone al concretar la operación en el local.</p>
       <div class="trade-benefits-grid">
         ${BENEFIT_PRODUCTS.map(benefitCard).join("")}
       </div>
-      <div class="trade-benefit-summary">
+      <div class="trade-benefit-summary" aria-live="polite" aria-atomic="true">
         <span>Beneficios seleccionados: ${benefitsTotalLabel()}</span>
         ${benefits.length
           ? benefits.map((benefit) => `<div><strong>${escapeHtml(benefit.name)}</strong><small>${benefitPriceLabel(benefit)}</small></div>`).join("")
@@ -921,16 +935,17 @@ function nextProductCard(product, options = {}) {
 function benefitCard(benefit) {
   const selected = state.selectedBenefitIds.includes(benefit.id);
   return `
-    <button class="trade-benefit-card ${selected ? "selected" : ""}" type="button" data-trade-benefit="${escapeAttr(benefit.id)}">
+    <button class="trade-benefit-card ${selected ? "selected" : ""}" type="button" aria-pressed="${selected}" data-trade-benefit="${escapeAttr(benefit.id)}">
       <span class="trade-benefit-image">
-        <img src="${escapeAttr(benefit.image)}" alt="${escapeAttr(benefit.name)}" loading="lazy">
+        <img src="${escapeAttr(benefit.image)}" alt="${escapeAttr(benefit.name)}" width="300" height="300" loading="eager" decoding="async">
       </span>
       <span class="trade-benefit-copy">
         <strong>${escapeHtml(benefit.name)}</strong>
         <span><i>Precio habitual:</i><s>${benefitPriceLabel(benefit, "referencePrice")}</s>${benefit.discountLabel ? `<b>${escapeHtml(benefit.discountLabel)}</b>` : ""}</span>
         <em>${benefitPriceLabel(benefit)}</em>
         ${benefit.note ? `<u>${escapeHtml(benefit.note)}</u>` : ""}
-        <small>${selected ? "Agregado ✓" : "Agregar"}</small>
+        <span class="trade-benefit-description">${escapeHtml(benefit.description || "")}</span>
+        <small>${selected ? "Quitar beneficio" : "Agregar beneficio"}</small>
       </span>
     </button>
   `;
