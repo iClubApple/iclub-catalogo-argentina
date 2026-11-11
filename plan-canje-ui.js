@@ -49,6 +49,7 @@ const BENEFIT_PRODUCTS = [
     name: "Funda + Vidrio Clear",
     referencePrice: 30,
     specialPrice: 10,
+    discountLabel: "66,67% OFF",
     image: "assets/funda-vidrio-clear-blanco.png",
     note: "Ahorrás USD 20.",
     description: "Protegé tu nuevo iPhone con una funda de protección Clear transparente y un vidrio templado de protección Clear.",
