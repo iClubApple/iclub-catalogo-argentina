@@ -41,6 +41,7 @@ const BENEFIT_PRODUCTS = [
     specialPrice: 45,
     discountLabel: "43,75% OFF",
     note: "Ahorrás USD 35.",
+    description: "Dale a tu nuevo iPhone la energía que necesita. Completá tu equipo con un cargador original de 20W y disfrutá de una carga rápida, segura y eficiente todos los días.",
     image: "assets/cargador-apple-usb-c-20w-original.jpeg",
     whatsappIcon: "🔌",
   },
